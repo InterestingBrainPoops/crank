@@ -1,0 +1,9 @@
+MULT = {"*"}
+DIV = {"/"}
+ADD = {"+"}
+SUB = {"-"}
+WHITESPACE = _{ " " }
+OPERATOR = {MULT | DIV | ADD | SUB}
+number = {ASCII_DIGIT+}
+expression = {number | (expression ~ OPERATOR ~ expression)}
+main = {SOI ~ expression ~ EOI}
