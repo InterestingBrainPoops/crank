@@ -1,7 +1,10 @@
-use super::parser::Operator;
+use super::Operator;
 
-#[derive(Debug, Copy, Clone, PartialEq)]
+#[derive(Debug, Clone, PartialEq)]
 pub enum Token {
+    Equals,
+    Var,
+    Literal(String),
     OpenParen,
     CloseParen,
     ForwardSlash,
@@ -9,6 +12,9 @@ pub enum Token {
     Plus,
     Hyphen,
     Number(f64),
+    Bang,
+    NotEquals,
+    EqualsEquals,
 }
 
 impl Token {
@@ -18,7 +24,7 @@ impl Token {
             Token::Asterisk => 3,
             Token::Plus => 2,
             Token::Hyphen => 2,
-            c => 0,
+            _ => 0,
         }
     }
 
@@ -28,7 +34,7 @@ impl Token {
             Token::Asterisk => Operator::Mult,
             Token::Plus => Operator::Add,
             Token::Hyphen => Operator::Sub,
-            _ => panic!("Attempted to do something unreasonable"),
+            c => panic!("Attempted to find the operator of {c:?}"),
         }
     }
 }
