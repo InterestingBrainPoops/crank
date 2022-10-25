@@ -15,6 +15,10 @@ pub enum Token {
     Bang,
     NotEquals,
     EqualsEquals,
+    GreEq,
+    Gre,
+    LesEq,
+    Less,
 }
 
 impl Token {
@@ -34,6 +38,12 @@ impl Token {
             Token::Asterisk => Operator::Mult,
             Token::Plus => Operator::Add,
             Token::Hyphen => Operator::Sub,
+            Token::NotEquals => Operator::NotEquals,
+            Token::EqualsEquals => Operator::EqualsEquals,
+            Token::LesEq => Operator::LessEqual,
+            Token::Less => Operator::Less,
+            Token::Gre => Operator::Greater,
+            Token::GreEq => Operator::GreaterEqual,
             c => panic!("Attempted to find the operator of {c:?}"),
         }
     }

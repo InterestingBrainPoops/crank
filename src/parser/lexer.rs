@@ -27,6 +27,20 @@ impl Lexer {
                     '-' => self.tokens.push(Token::Hyphen),
                     '(' => self.tokens.push(Token::OpenParen),
                     ')' => self.tokens.push(Token::CloseParen),
+                    '>' => match input.chars().nth(self.position + 1) {
+                        Some('=') => {
+                            self.tokens.push(Token::GreEq);
+                            self.position += 1;
+                        }
+                        _ => self.tokens.push(Token::Gre),
+                    },
+                    '<' => match input.chars().nth(self.position + 1) {
+                        Some('=') => {
+                            self.tokens.push(Token::LesEq);
+                            self.position += 1;
+                        }
+                        _ => self.tokens.push(Token::Less),
+                    },
                     '=' => match input.chars().nth(self.position + 1) {
                         Some('=') => {
                             self.tokens.push(Token::EqualsEquals);

@@ -16,7 +16,7 @@ pub enum Node {
 #[derive(Debug, PartialEq, Clone)]
 pub enum Literal {
     Name(String),
-    Stringt(String),
+    StringT(String),
     Float(f64),
 }
 
@@ -26,6 +26,12 @@ pub enum Operator {
     Div,
     Sub,
     Add,
+    NotEquals,
+    EqualsEquals,
+    GreaterEqual,
+    Greater,
+    LessEqual,
+    Less,
 }
 
 pub struct Parser {
@@ -99,8 +105,18 @@ impl Parser {
     }
 
     fn conditional(&mut self) -> Node {
-        let mut node = self.term();
+        let mut node = self.compare();
         while self.matches(vec![Token::NotEquals, Token::EqualsEquals]) {
+            let operator = self.previous().operator();
+            let right = self.compare();
+            node = Node::Binary(operator, Box::new(node), Box::new(right));
+        }
+        node
+    }
+
+    fn compare(&mut self) -> Node {
+        let mut node = self.term();
+        while self.matches(vec![Token::Gre, Token::GreEq, Token::LesEq, Token::Less]) {
             let operator = self.previous().operator();
             let right = self.term();
             node = Node::Binary(operator, Box::new(node), Box::new(right));
@@ -138,7 +154,7 @@ impl Parser {
     }
     fn primary(&mut self) -> Node {
         match self.advance() {
-            Token::Literal(x) => Node::Value(Literal::Stringt(x.clone())),
+            Token::Literal(x) => Node::Value(Literal::StringT(x.clone())),
             Token::Number(x) => Node::Value(Literal::Float(*x)),
             _ => unreachable!(),
         }
