@@ -3,7 +3,6 @@ use super::Operator;
 #[derive(Debug, Clone, PartialEq)]
 pub enum Token {
     Equals,
-    Var,
     Literal(String),
     OpenParen,
     CloseParen,
@@ -19,6 +18,15 @@ pub enum Token {
     Gre,
     LesEq,
     Less,
+    OpenBracket,
+    CloseBracket,
+    Colon,
+    Semicolon,
+    FunctionDefine,
+    Var,
+    StructDefine,
+    EnumDefine,
+    Pub,
 }
 
 impl Token {

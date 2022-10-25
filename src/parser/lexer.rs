@@ -55,6 +55,10 @@ impl Lexer {
                         }
                         _ => self.tokens.push(Token::Bang),
                     },
+                    '{' => self.tokens.push(Token::OpenBracket),
+                    '}' => self.tokens.push(Token::CloseBracket),
+                    ':' => self.tokens.push(Token::Colon),
+                    ';' => self.tokens.push(Token::Semicolon),
                     ' ' => {}
                     _ => match x.to_digit(10) {
                         Some(_) => {
@@ -66,6 +70,10 @@ impl Lexer {
                             let x = self.grab_until("{}!/*+-()= ".chars().collect(), input);
                             match x.as_str() {
                                 "var" => self.tokens.push(Token::Var),
+                                "fn" => self.tokens.push(Token::FunctionDefine),
+                                "struct" => self.tokens.push(Token::StructDefine),
+                                "enum" => self.tokens.push(Token::EnumDefine),
+                                "pub" => self.tokens.push(Token::Pub),
                                 _ => self.tokens.push(Token::Literal(x)),
                             }
                         }
